@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Windows.Controls.Animation", "System.Windows.Controls.Animation\System.Windows.Controls.Animation.csproj", "{92F7F8DB-CB8E-4667-9A8D-2FECDEFC39FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{F456E315-CE5D-4402-8399-62CD5B041CDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92F7F8DB-CB8E-4667-9A8D-2FECDEFC39FD}.Debug|x86.ActiveCfg = Debug|x86
+		{92F7F8DB-CB8E-4667-9A8D-2FECDEFC39FD}.Debug|x86.Build.0 = Debug|x86
+		{92F7F8DB-CB8E-4667-9A8D-2FECDEFC39FD}.Release|x86.ActiveCfg = Release|x86
+		{92F7F8DB-CB8E-4667-9A8D-2FECDEFC39FD}.Release|x86.Build.0 = Release|x86
+		{F456E315-CE5D-4402-8399-62CD5B041CDC}.Debug|x86.ActiveCfg = Debug|x86
+		{F456E315-CE5D-4402-8399-62CD5B041CDC}.Debug|x86.Build.0 = Debug|x86
+		{F456E315-CE5D-4402-8399-62CD5B041CDC}.Release|x86.ActiveCfg = Release|x86
+		{F456E315-CE5D-4402-8399-62CD5B041CDC}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,54 @@
+﻿<Window x:Class="System.Windows.Controls.Animation.SelectColorDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:ClassModifier="internal"
+        Title="Select a color" Height="235" Width="577">
+    <Grid>
+<Grid>
+	    <Grid.Resources>
+	 	         
+	        <DataTemplate x:Key="BoxTemplate">
+	            <StackPanel Orientation="Horizontal">
+	                <Border Background="{Binding Path=Name}"
+	                        CornerRadius="5"
+	                        Width="50"
+	                        Height="50"/>
+	            </StackPanel>
+	        </DataTemplate>
+	         
+	        <Style x:Key="ItemStyle" TargetType="ListBoxItem">
+	            <Setter Property="Template">
+	                <Setter.Value>
+	                    <ControlTemplate TargetType="ListBoxItem">
+                            <Border Name="Part_Selection">
+                                        <Border CornerRadius="2" Margin="3" BorderThickness="0">
+                                    <ContentPresenter />
+                                </Border>
+                            </Border>
+
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="Part_Selection" Property="Background" Value="{StaticResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+	                </Setter.Value>
+	            </Setter>
+	        </Style>
+	         
+	    </Grid.Resources>
+	 
+	    <ListBox ItemTemplate="{StaticResource BoxTemplate}"
+	             ItemContainerStyle="{StaticResource ItemStyle}"
+	             Name="Part_ColorListBox" Margin="6,6,6,41" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel HorizontalAlignment="Stretch" Margin="0,0,0,0" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button Content="Cancel" Margin="0,0,6,12" Name="Part_Cancel" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120" Click="Part_Cancel_Click" />
+            <Button Content="Ok" HorizontalAlignment="Right" Margin="0,0,132,12" Name="Part_Ok" Width="120" Height="23" VerticalAlignment="Bottom" Click="Part_Ok_Click" />
+        </Grid>
+    </Grid>
+</Window>

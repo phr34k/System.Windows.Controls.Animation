@@ -1,0 +1,445 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:System.Windows.Controls.Animation"
+    xmlns:internal="clr-namespace:System.Windows.Controls.Animation.Internals">
+
+
+    <Style x:Key="DataGridColumnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}"  >
+        <Setter Property="Background" Value="White" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="{TemplateBinding Background}" >
+                        <ContentPresenter  />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupItem}">
+                    <Expander IsExpanded="True">
+                        <Expander.Header>
+                            <TextBlock Text="{Binding Name.Name}"/>
+                        </Expander.Header>
+                        <ItemsPresenter />
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupItemStyle" TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupItem}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" />
+                        <ItemsPresenter />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                        <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Stroke" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Fill" TargetName="Border" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" TargetName="Arrow" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="DataGridStyle1" TargetType="{x:Type DataGrid}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="BorderBrush" Value="#FF688CAF"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Visible"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Visible"/>
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="CanUserReorderColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        
+        
+
+
+        
+                     
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DataGrid}">
+                    <Border Margin="0,24,0,0">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="{TemplateBinding BorderThickness}" 
+                                    Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" 
+                                    SnapsToDevicePixels="True">
+
+
+                            <ScrollViewer x:Name="Part_ScrollViewer" Focusable="false" ClipToBounds="False" >
+                                <ScrollViewer.Template>
+                                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                        <local:AnimationEditorGrid>
+                                            <local:AnimationEditorGrid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </local:AnimationEditorGrid.ColumnDefinitions>
+                                                <local:AnimationEditorGrid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>                                                    
+                                            </local:AnimationEditorGrid.RowDefinitions>
+
+
+                                            <Button Grid.Row="0" Command="{x:Static DataGrid.SelectAllCommand}" Focusable="false" Style="{DynamicResource {ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}}" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.All}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}" Width="{Binding CellsPanelHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                            <DataGridColumnHeadersPresenter Grid.Row="0" x:Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding HeadersVisibility, ConverterParameter={x:Static DataGridHeadersVisibility.Column}, Converter={x:Static DataGrid.HeadersVisibilityConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+
+                                            <Grid Grid.Column="1" Grid.Row="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>                                               
+                                                <local:AnimationCurvePreview Background="Transparent" MinHeight="100" Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1" 
+                                                                       Offset="{Binding AnimationViewportOffset, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"                                                                       
+                                                                       Scale="{Binding AnimationViewportScale, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                                                                       ItemsSource="{Binding VisibleItems, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                                                                       x:Name="Part_Preview"
+                                                                       />
+                                            </Grid>
+
+                                            
+
+                                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" Grid.ColumnSpan="2" Grid.Row="3" ClipToBounds="True"/>
+                                            <ScrollBar x:Name="PART_VerticalScrollBar" Grid.Column="2" Maximum="{TemplateBinding ScrollableHeight}" Orientation="Vertical" Grid.Row="3" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}"/>
+
+                                            <Grid Grid.Column="1" Grid.Row="4">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="75"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                    <StackPanel.Resources>
+                                                        <internal:EasyingToIndexConverter x:Key="EasyingToIndexConverter" />
+                                                    </StackPanel.Resources>
+                                                    <ComboBox x:Name="Part_Easing" Width="130" SelectedIndex="{Binding Path=SelectedItem.Easying, Converter={StaticResource EasyingToIndexConverter}, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                              Style="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}">
+                                                        <ComboBox.Items>
+                                                            <ComboBoxItem>Flat</ComboBoxItem>
+                                                            <ComboBoxItem>Linear</ComboBoxItem>
+                                                            <ComboBoxItem>Smooth</ComboBoxItem>
+                                                        </ComboBox.Items>
+                                                    </ComboBox>
+                                                    <ComboBox x:Name="Part_Continuity" Width="130" Margin="5,0,0,0">
+                                                        <ComboBox.Items>
+                                                            <ComboBoxItem>Smooth</ComboBoxItem>
+                                                            <ComboBoxItem>Step</ComboBoxItem>
+                                                        </ComboBox.Items>
+                                                        <ComboBox.Style>
+                                                            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger  Binding="{Binding Path=SelectedItemIndex, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" Value="-1" >
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                    </DataTrigger>
+
+                                                                    <DataTrigger Binding="{Binding Path=SelectedKeyframeIndex, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" Value="-1" >
+                                                                        <Setter Property="IsEnabled" Value="False" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </ComboBox.Style>
+                                                    </ComboBox>
+                                                </StackPanel>
+
+                                                <Slider Grid.Column="1" Minimum="30" Maximum="100" 
+                                                        Value="{Binding AnimationViewportScale, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" />
+                                                <ScrollBar x:Name="PART_HorizontalScrollBar1" Grid.Column="2" 
+                                                           Orientation="Horizontal" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
+                                                           Value="{Binding AnimationViewportOffset, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" 
+                                                           Maximum="{Binding AnimationViewportOffsetWidth, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"  
+                                                           ViewportSize="1400"/>
+                                            </Grid>
+
+
+                                            <Grid Grid.Column="1" Grid.Row="0" Margin="0,-24,0,0" Height="48" MinHeight="48" MaxHeight="48" VerticalAlignment="Top">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>                                                                                                
+                                                <local:AnimationTimeRuler Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1"                                                                 
+                                                    Offset="{Binding AnimationViewportOffset, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"                                                                       
+                                                    Scale="{Binding AnimationViewportScale, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                                                    />
+                                            </Grid>
+
+                                            <GridSplitter 
+                                                ResizeDirection="Rows" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Width="Auto" Height="3"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="0" />
+
+                                            <Grid Grid.Column="1" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                                  Grid.RowSpan="4" Margin="0,0,0,0"
+                                                  >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="{Binding NonFrozenColumnsViewportHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <local:AnimationTimeIndicator Grid.Row="1" Grid.ColumnSpan="3" Grid.Column="1"  
+                                                    Offset="{Binding AnimationViewportOffset, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"     
+                                                    Value="{Binding AnimationCurrentTime, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}, UpdateSourceTrigger=PropertyChanged}"                                                                         
+                                                    Scale="{Binding AnimationViewportScale, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                                                    Minimum="0" Maximum="{Binding AnimationDuration, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" />
+                                            </Grid>
+                                            
+                                           
+
+                                        </local:AnimationEditorGrid>
+                                    </ControlTemplate>
+                                </ScrollViewer.Template>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="{x:Type local:AnimationCurvePreview}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AnimationCurvePreview}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" ClipToBounds="True">
+                        <ContentPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AnimationKeyFrameRuler}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AnimationKeyFrameRuler}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AnimationTimeRuler}">
+        <Setter Property="ClipToBounds" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AnimationTimeRuler}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AnimationEditor}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AnimationEditor}">
+
+                    <ControlTemplate.Resources>
+                        <internal:AnimationLengthConverter x:Key="LengthConverter"  />
+                        <internal:ColorToBrushConverter x:Key="ColorConverter" />
+                        <internal:TimeEvaluatedValueConverter x:Key="TimeEvaluatedValueConverter" />
+                    </ControlTemplate.Resources>
+                    <DataGrid Name="Part_AnimationChannels" FrozenColumnCount="2" AreRowDetailsFrozen="True"  Style="{StaticResource DataGridStyle1}"                               
+                              ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                              >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Width="250" IsReadOnly="True" Header="Layer Name" Binding="{Binding Name}"  />
+
+                            <DataGridTemplateColumn   Width="150" IsReadOnly="True" Header="" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox Grid.Column="0" Margin="5,0,5,0" VerticalAlignment="Center" IsChecked="{Binding Path=Visible, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                            <Border Background="{Binding Color, Converter={StaticResource ColorConverter}}" BorderBrush="Black" BorderThickness="0.5" Width="20" Height="10" VerticalAlignment="Center" Grid.Column="1" Margin="5,0,5,0" >
+                                                <Border.InputBindings>
+                                                    <MouseBinding Command="local:AnimationEditor.SelectColor" MouseAction="LeftClick" />
+                                                </Border.InputBindings>
+                                            </Border>
+                                            <local:AnimationValueLabel VerticalAlignment="Center" Grid.Column="2"
+                                                   Content="{Binding Value}" Cursor="SizeWE"  />
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn  Width="*"  IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <local:AnimationKeyFrameRuler Width="{Binding Path=AnimationDuration, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}, Converter={StaticResource LengthConverter}}" 
+                                                              Source="{Binding .}" 
+                                                              SelectedIndex="{Binding SelectedKeyframeIndex, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"
+                                                              SelectedItemIndex="{Binding SelectedItemIndex, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"                                                          
+                                                              Offset="{Binding AnimationViewportOffset, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}"    
+                                                              Scale="{Binding AnimationViewportScale, RelativeSource={RelativeSource AncestorType={x:Type local:AnimationEditor}}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource GroupItemStyle}" />
+                        </DataGrid.GroupStyle>
+                    </DataGrid>
+
+
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:AnimationTimeIndicator}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:AnimationTimeIndicator}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>            
+        </Setter>
+        <Setter Property="ClipToBounds" Value="True"/>
+    </Style>
+
+
+    <Style TargetType="{x:Type local:AnimationValueLabel}" xmlns:s="clr-namespace:System;assembly=mscorlib">
+        <Setter Property="Margin" Value="10,3" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="Calibri" />
+        <Setter Property="TextElement.Foreground">
+            <Setter.Value>
+                <DynamicResource ResourceKey="{x:Static SystemColors.ControlTextBrushKey}" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Panel.Background">
+            <Setter.Value>
+                <SolidColorBrush>
+                    #00FFFFFF</SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.Padding">
+            <Setter.Value>
+                <Thickness>
+                    5,5,5,5</Thickness>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.HorizontalContentAlignment">
+            <Setter.Value>
+                <x:Static Member="HorizontalAlignment.Left" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.VerticalContentAlignment">
+            <Setter.Value>
+                <x:Static Member="VerticalAlignment.Top" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Border BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}" SnapsToDevicePixels="True">
+                        <ContentPresenter RecognizesAccessKey="True" Content="{TemplateBinding ContentControl.Content}" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsEnabled">
+                            <Setter Property="TextElement.Foreground">
+                                <Setter.Value>
+                                    <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <s:Boolean>
+                                    False</s:Boolean>
+                            </Trigger.Value>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsEnabled" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter Property="Foreground" Value="OrangeRed" />
+            </MultiTrigger>
+        </Style.Triggers>
+        <Style.Resources>
+            <Style TargetType="TextBlock">
+                <Style.Triggers>
+                    <MultiDataTrigger>
+                        <MultiDataTrigger.Conditions>
+                            <Condition Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=Label}, Path=IsMouseOver}" Value="True" />
+                            <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled}" Value="True" />
+                        </MultiDataTrigger.Conditions>
+                        <Setter Property="TextDecorations" Value="Underline"/>
+                    </MultiDataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+</ResourceDictionary>
